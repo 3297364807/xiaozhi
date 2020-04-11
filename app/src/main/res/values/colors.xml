@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="item_main_color">#ffffff</color>
+    <color name="item_main_color_selected">#63B8FF</color>
+
+    <color name="item_main_text_color">#63B8FF</color>
+    <color name="item_main_text_color_selected">#ffffff</color>
+    <color name="transparent">#FFFFFF</color>
+</resources>

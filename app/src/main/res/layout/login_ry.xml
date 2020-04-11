@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:orientation="horizontal"
+        >
+        <LinearLayout
+            android:gravity="center"
+            android:layout_width="70dp"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/login_ry_tv1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" "
+                android:textSize="20dp"
+                android:textColor="#FF0000"
+                tools:ignore="HardcodedText" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:gravity="center"
+            android:layout_width="70dp"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/login_ry_tv2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" "
+                android:textSize="20dp"
+                android:textColor="#FF0000"
+                tools:ignore="HardcodedText" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/login_ry_ll"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <com.bm.library.PhotoView
+                android:id="@+id/login_ry_iv1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

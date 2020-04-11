@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="anime">
+        <item>动漫化</item>
+        <item>黑白图像上色</item>
+        <item>图像去雾</item>
+        <item>拉伸恢复</item>
+        <item>对比度增强</item>
+        <item>无损放大</item>
+    </string-array>
+    <string-array name="bottom">
+        <item>大学习截图</item>
+        <item>截图查询</item>
+        <item>课表查询</item>
+        <item>图像处理</item>
+        <item>微哨查询</item>
+        <item>个人中心</item>
+    </string-array>
+</resources>

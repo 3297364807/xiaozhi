@@ -1,0 +1,84 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 28
+    buildToolsVersion '28.0.3'
+    defaultConfig {
+        applicationId "com.example.rnsb_start"
+        minSdkVersion 15
+        targetSdkVersion 26
+        versionCode 1000
+        versionName "3.3.0.0"
+
+    }
+    configurations.all {
+        resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+            def requested = details.requested
+            if (requested.group == 'com.android.support') {
+                if (!requested.name.startsWith("multidex")) {
+                    details.useVersion '28.0.0'
+                }
+            }
+        }
+    }
+    signingConfigs {
+
+        def password = "adminadmin"
+        def alias = "key0"
+        def filePath = "C:\\Users\\Administrator\\Desktop\\baiduyun\\Key\\rnsb.jks"
+        //如  ../facesharp.jks//签名文件路径
+
+        debug {
+            keyAlias alias
+            keyPassword password
+            storeFile file(filePath)
+            storePassword(password)
+        }
+        release {
+            keyAlias alias
+            keyPassword password
+            storeFile file(filePath)
+            storePassword(password)
+        }
+    }
+    buildTypes {
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
+            debuggable true
+            jniDebuggable true
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+            debuggable false
+            jniDebuggable false
+        }
+    }
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
+}
+
+dependencies {
+    implementation "com.android.support:appcompat-v7"
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    compile project(path: ':faceplatform-ui')
+    implementation "com.android.support:recyclerview-v7"
+    implementation 'de.hdodenhof:circleimageview:3.0.1'
+    implementation 'com.github.bumptech.glide:glide:3.7.0'
+    implementation "com.android.support:support-v4"
+    implementation "com.android.support:cardview-v7"
+    implementation 'com.bm.photoview:library:1.4.1'
+    implementation 'org.litepal.android:java:3.0.0'
+    implementation 'com.nineoldandroids:library:2.4.0'
+    implementation 'com.github.sd6352051.niftydialogeffects:niftydialogeffects:1.0.0@aar'
+    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.squareup.okhttp3:okhttp:3.12.0'
+    implementation "com.android.support:design"
+    implementation "com.android.support:support-v4"
+    implementation "com.android.support:support-annotations"
+}
