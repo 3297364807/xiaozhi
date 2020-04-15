@@ -32,7 +32,7 @@ import android.widget.Toast;
 
 import com.baidu.idl.face.example.FaceDetectExpActivity;
 import com.baidu.idl.face.example.login.Title;
-import com.baidu.idl.face.example.login.tools.Book;
+import com.baidu.idl.face.example.login.litepal.Book;
 import com.bumptech.glide.Glide;
 import com.example.rnsb_start.R;
 

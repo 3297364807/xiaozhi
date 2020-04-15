@@ -8,7 +8,6 @@ import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,8 +15,8 @@ import android.widget.Toast;
 
 import com.baidu.idl.face.example.Main_pageActivity;
 import com.baidu.idl.face.example.login.Title;
+import com.baidu.idl.face.example.login.litepal.Book;
 import com.baidu.idl.face.example.login.recycleview.Registered_ry;
-import com.baidu.idl.face.example.login.tools.Book;
 import com.baidu.idl.face.example.login.tools.Http_tools;
 import com.baidu.idl.face.example.login.tools.Registered_tools;
 import com.example.rnsb_start.R;
@@ -25,12 +24,9 @@ import com.example.rnsb_start.R;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.litepal.LitePal;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -162,6 +158,11 @@ public class RegisteredActivity extends Activity {
             add(getIntent().getStringExtra("access_token"),getIntent().getStringExtra("base64Data"),student.getText().toString());
             boolean result=jsonObject.getString("name").equals(name.getText().toString());
             if(result){
+                Book book=new Book();
+                book.setName(name.getText().toString());
+                book.setStudent(student.getText().toString());
+                book.setCLASS(edit.getText().toString());
+                book.save();
                 handler.post(()->{
                     Toast.makeText(context, "注册成功", Toast.LENGTH_SHORT).show();
                 });

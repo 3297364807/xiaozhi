@@ -16,4 +16,22 @@
         <item>微哨查询</item>
         <item>个人中心</item>
     </string-array>
+    <string-array name="id">
+        <item>1649</item>
+        <item>1650</item>
+        <item>1651</item>
+        <item>1652</item>
+        <item>1653</item>
+        <item>1654</item>
+        <item>1655</item>
+    </string-array>
+    <string-array name="Class">
+        <item>2018级服装设计01班</item>
+        <item>2018级工程造价01班</item>
+        <item>2018级工程造价02班</item>
+        <item>2018级计算机应用技术03班</item>
+        <item>2018级建筑设计01班</item>
+        <item>2018级建筑设计02班</item>
+        <item>2018级移动开发01班</item>
+    </string-array>
 </resources>

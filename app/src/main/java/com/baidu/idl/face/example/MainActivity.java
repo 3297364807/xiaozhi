@@ -3,7 +3,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.baidu.idl.face.example.login.tools.Book;
+import com.baidu.idl.face.example.login.litepal.Book;
 
 import org.litepal.LitePal;
 

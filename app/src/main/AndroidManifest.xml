@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.rnsb_start">
+
     <!-- 权限级别: dangerous -->
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.CAMERA" />
@@ -31,11 +32,28 @@
     <application
         android:name="com.baidu.idl.face.example.ExampleApplication"
         android:allowBackup="true"
+        android:enabled="true"
         android:icon="@mipmap/ic_launcher_foreground"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_foreground"
         android:theme="@style/MyTranslucentTheme">
-        <activity android:name="com.baidu.idl.face.example.Main_pageActivity"></activity>
+
+        <service android:name="com.baidu.idl.face.example.login.util.WatchDogService"
+            android:process=":watch"
+            />
+
+        <service
+            android:name="com.baidu.idl.face.example.login.util.WatchDogService$WatchDogNotificationService"
+            android:process=":watch"/>
+        <service
+            android:name="com.baidu.idl.face.example.login.util.JobSchedulerService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:enabled="true"
+            android:exported="true"
+            android:process=":watch"/>
+        <service android:name="com.baidu.idl.face.example.login.util.AbsWorkService$WorkNotificationService"/>
+        <service android:name="com.baidu.idl.face.example.login.service.TraceServiceImpl"/>
+        <activity android:name="com.baidu.idl.face.example.Main_pageActivity" />
         <activity android:name="com.baidu.idl.face.example.login.activity.RegisteredActivity" /> <!-- 主界面 -->
         <activity
             android:name="com.baidu.idl.face.example.MainActivity"

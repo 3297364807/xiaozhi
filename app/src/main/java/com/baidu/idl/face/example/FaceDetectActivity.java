@@ -32,7 +32,7 @@ import android.widget.Toast;
 
 import com.baidu.aip.face.stat.Ast;
 import com.baidu.idl.face.example.login.activity.RegisteredActivity;
-import com.baidu.idl.face.example.login.tools.Book;
+import com.baidu.idl.face.example.login.litepal.Book;
 import com.baidu.idl.face.platform.FaceConfig;
 import com.baidu.idl.face.platform.FaceSDKManager;
 import com.baidu.idl.face.platform.FaceStatusEnum;

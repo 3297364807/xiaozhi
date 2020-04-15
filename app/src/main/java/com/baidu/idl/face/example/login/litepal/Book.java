@@ -1,4 +1,4 @@
-package com.baidu.idl.face.example.login.tools;
+package com.baidu.idl.face.example.login.litepal;
 
 import org.litepal.crud.LitePalSupport;
 
