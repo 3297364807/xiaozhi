@@ -45,7 +45,6 @@ public class PollingUtil {
             };
             mTaskMap.put(runnable, task);
         }
-        System.out.println("2222222");
         post(runnable, interval);
     }
 

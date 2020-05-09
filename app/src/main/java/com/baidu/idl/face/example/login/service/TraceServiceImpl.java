@@ -76,7 +76,6 @@ public class TraceServiceImpl extends AbsWorkService {
                                             StartNotice();
                                         } else {
                                             System.out.println("已完成");
-                                            StartNotice();
                                         }
                                     }
                                 }
@@ -93,7 +92,7 @@ public class TraceServiceImpl extends AbsWorkService {
 
             }
         };
-        pollingUtil.startPolling(runnable,10000,false);
+        pollingUtil.startPolling(runnable,1800000,false);
     }
     private void StartNotice() {
         NotificationUtils notificationUtils=new NotificationUtils(this);

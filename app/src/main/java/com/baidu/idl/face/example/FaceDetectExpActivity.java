@@ -2,36 +2,45 @@ package com.baidu.idl.face.example;
 
 import android.Manifest;
 import android.annotation.TargetApi;
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.pm.PermissionGroupInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.baidu.idl.face.platform.FaceConfig;
 import com.baidu.idl.face.platform.FaceEnvironment;
 import com.baidu.idl.face.platform.FaceSDKManager;
 import com.baidu.idl.face.platform.FaceStatusEnum;
+import com.fastaccess.permission.base.PermissionHelper;
+
 
 import java.util.HashMap;
+import java.util.List;
+
+
 
 public class FaceDetectExpActivity extends FaceDetectActivity {
+    private PermissionHelper permissionHelper;
+    private String permissions[] = {Manifest.permission.CAMERA};
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //进行相机权限的检测，如果没有授权，申请权限。
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, 1);
-            Toast.makeText(this, "请允许否则不能使用", Toast.LENGTH_LONG).show();
-        } else {
-
-        }
         requestPermissions(99, Manifest.permission.CAMERA);
         initLib();
-
     }
+
+
+
+
     @Override
     public void onDetectCompletion(FaceStatusEnum status, String message, HashMap<String, String> base64ImageMap) {
         super.onDetectCompletion(status, message, base64ImageMap);//这里可以收集人脸

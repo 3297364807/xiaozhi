@@ -6,4 +6,5 @@
     <color name="item_main_text_color">#63B8FF</color>
     <color name="item_main_text_color_selected">#ffffff</color>
     <color name="transparent">#FFFFFF</color>
+    <color name="theme">#14baca</color>
 </resources>

@@ -1,7 +1,10 @@
 package com.baidu.idl.face.example.login.Fragement;
+import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -10,6 +13,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.util.Base64;
 import android.util.Log;
@@ -19,16 +23,21 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.baidu.idl.face.example.login.tools.Http_tools;
 import com.example.rnsb_start.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.Socket;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -37,6 +46,7 @@ import tools.HttpUtil;
 import tools.Token;
 
 import static android.app.Activity.RESULT_OK;
+import static android.content.Context.RECEIVER_VISIBLE_TO_INSTANT_APPS;
 
 public class AnimeFragment extends Fragment implements View.OnClickListener {
     private Handler handler=new Handler();
@@ -44,15 +54,17 @@ public class AnimeFragment extends Fragment implements View.OnClickListener {
     private ImageView iv2;
     private Button Select_images;
     private Button save_images;
-    private Bitmap bitmap=null;
+    private Bitmap bitmap=null,bitmap2=null;
     private Context context;
     public String data;
-
-    public static final AnimeFragment newInstance(String url)
+    private ProgressDialog progressDialog;
+    private String id;
+    public static final AnimeFragment newInstance(String url,String id)
     {
         AnimeFragment fragment = new AnimeFragment();
         Bundle bundle = new Bundle();
         bundle.putString("url", url);
+        bundle.putString("id",id);
         fragment.setArguments(bundle);
         return fragment ;
     }
@@ -61,6 +73,7 @@ public class AnimeFragment extends Fragment implements View.OnClickListener {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         data=getArguments().getString("url");
+        id=getArguments().getString("id");
     }
 
     @Nullable
@@ -71,7 +84,6 @@ public class AnimeFragment extends Fragment implements View.OnClickListener {
         initView(view);
         return view;
     }
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -132,9 +144,6 @@ public class AnimeFragment extends Fragment implements View.OnClickListener {
         }
         return result;
     }
-
-
-
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         //用户操作完成，结果码返回是-1，即RESULT_OK
         if (resultCode == RESULT_OK) {
@@ -153,23 +162,7 @@ public class AnimeFragment extends Fragment implements View.OnClickListener {
                 if ((endTime - startTime) < 900) {
                     iv1.setImageBitmap(bitmap);
                     this.bitmap = bitmap;
-                    new Thread(()->{
-                        try {
-                            JSONObject jsonObject=new JSONObject(selfie_anime(bitmap));
-                            System.out.println(">>>>>>>"+jsonObject.getString("image"));
-                            this.bitmap=base64ToBitmap(jsonObject.getString("image"));
-                            handler.post(()-> {
-                                if(this.bitmap!=null){
-                                    iv2.setImageBitmap(this.bitmap);
-                                }
-
-                            });
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-
-                    }).start();
+                    Select_images.setText("开始美化");
                 } else {
                     Toast.makeText(context, "❤仅支持9M以下图片❤", Toast.LENGTH_SHORT).show();
                 }
@@ -177,7 +170,6 @@ public class AnimeFragment extends Fragment implements View.OnClickListener {
                 Log.e("Exception", e.getMessage(), e);
             }
         } else {
-            //操作错误或没有选择图片
             Log.i("MainActivtiy", "operation error");
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -194,18 +186,79 @@ public class AnimeFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.Select_images:
-                openAlbum();
+                if(Select_images.getText().toString().equals("选择图片")){
+                    openAlbum();
+                }else {
+                    progressDialog=new ProgressDialog(context);
+                    progressDialog.setTitle("截图");
+                    progressDialog.setMessage("请稍后");
+                    progressDialog.setCancelable(false);
+                    progressDialog.show();
+                    upload_image();
+                }
                 break;
             case R.id.save_images:
-                if(bitmap!=null){
-                    String data=new SimpleDateFormat("YYYY.MM.dd HH:mm:ss").format(new Date());
-                    saveImageToGallery(bitmap,data);
-                }else {
-                    Toast.makeText(context, "请选择图片", Toast.LENGTH_SHORT).show();
+                if (ActivityCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, RECEIVER_VISIBLE_TO_INSTANT_APPS);
+                } else {
+                    if(bitmap2!=null){
+                        String data=new SimpleDateFormat("YYYY.MM.dd HH:mm:ss").format(new Date());
+                        saveImageToGallery(bitmap2,data);
+                    }else {
+                        Toast.makeText(context, "请美化图片", Toast.LENGTH_SHORT).show();
+                    }
                 }
                 break;
         }
     }
+    private void upload_image() {
+        new Thread(()->{
+            get();
+        }).start();
+    }
+    private void get() {
+        try {
+            Http_tools tools=new Http_tools();
+            String[] data=tools.initSectet(id).split(",");
+            if(Integer.valueOf(data[4])>0){
+                TCP_socket3(String.valueOf(Integer.valueOf(data[4])-1));
+                try {
+                    JSONObject jsonObject=new JSONObject(selfie_anime(bitmap));
+                    System.out.println(">>>>>>>"+jsonObject.getString("image"));
+                    bitmap2=base64ToBitmap(jsonObject.getString("image"));
+                    handler.post(()-> {
+                        if(bitmap2!=null){
+                            iv2.setImageBitmap(bitmap2);
+                        }
+                        progressDialog.dismiss();
+                        Select_images.setText("选择图片");
+                    });
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }else {
+                handler.post(()->{
+                    Toast.makeText(context, "积分不足!", Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
+                });
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void TCP_socket3(String s) {
+        Socket client = null;//发送连接
+        try {
+            client = new Socket("39.106.133.87", 5289);
+            DataOutputStream dos = new DataOutputStream(client.getOutputStream());//发送数据
+            dos.writeUTF(id+","+s);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public void saveImageToGallery(Bitmap bmp, String datas) {
         String galleryPath = Environment.getExternalStorageDirectory()
@@ -221,7 +274,7 @@ public class AnimeFragment extends Fragment implements View.OnClickListener {
             if (isSuccess) {
                 String str = file.getPath();
                 handler.post(()->{
-                    Toast.makeText(context, "保存完成", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "保存至手机相册", Toast.LENGTH_SHORT).show();
                     System.out.println("保存地址："+str);
                 });
             } else {

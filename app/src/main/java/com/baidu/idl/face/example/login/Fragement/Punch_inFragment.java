@@ -12,6 +12,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -48,6 +49,7 @@ public class Punch_inFragment extends Fragment {
     private List<Punch_tools> list = new ArrayList<>();
     private RecyclerView ry;
     private NotificationUtils notificationUtils;
+    private SwipeRefreshLayout sw;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -60,6 +62,7 @@ public class Punch_inFragment extends Fragment {
         completed_user = view.findViewById(R.id.completed_user);
         sum_user = view.findViewById(R.id.sum_user);
         ry = view.findViewById(R.id.ry);
+        sw=view.findViewById(R.id.sw);
         id = getArguments().getString("id");
         Class = getArguments().getString("Class");
         name = getArguments().getString("name");
@@ -122,6 +125,17 @@ public class Punch_inFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         initView(view);
         initData();
+        sw.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                initData();
+                sw.setRefreshing(false);
+                handler.post(()->{
+                    Toast.makeText(context, "刷新成功", Toast.LENGTH_SHORT).show();
+                });
+            }
+        });
+
     }
 
     public static final Punch_inFragment newInstance(String id, String Class, String name) {

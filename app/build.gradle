@@ -27,7 +27,6 @@ android {
         def alias = "key0"
         def filePath = "C:\\Users\\Administrator\\Desktop\\baiduyun\\Key\\rnsb.jks"
         //如  ../facesharp.jks//签名文件路径
-
         debug {
             keyAlias alias
             keyPassword password
@@ -75,11 +74,11 @@ dependencies {
     implementation 'com.bm.photoview:library:1.4.1'
     implementation 'org.litepal.android:java:3.0.0'
     implementation 'com.nineoldandroids:library:2.4.0'
-    implementation 'com.github.sd6352051.niftydialogeffects:niftydialogeffects:1.0.0@aar'
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'com.squareup.okhttp3:okhttp:3.12.0'
     implementation "com.android.support:design"
     implementation "com.android.support:support-v4"
     implementation "com.android.support:support-annotations"
     api 'io.reactivex.rxjava2:rxjava:2.+'
+    implementation  'com.github.k0shk0sh:PermissionHelper:1.1.0'//相机申请辅助
 }

@@ -1,5 +1,9 @@
 package com.baidu.idl.face.example.login.tools;
 
+import com.baidu.idl.face.example.login.litepal.Book;
+
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.security.SecureRandom;
@@ -64,5 +68,19 @@ public class Http_tools {
                 .build();
         Response response = client.newCall(request).execute();
         return response.body().string();
+    }
+
+    public String initSectet(String id) throws IOException {
+        Socket client=new Socket("39.106.133.87",6666);//发送连接
+        DataOutputStream dos=new DataOutputStream(client.getOutputStream());//发送数据
+        dos.writeUTF(id);
+        dos.flush();
+        String data=null;
+        DataInputStream dis=new DataInputStream(client.getInputStream());//接收服务器的数据
+        data=dis.readUTF();
+        dos.close();
+        dis.close();
+        client.close();
+        return data;
     }
 }

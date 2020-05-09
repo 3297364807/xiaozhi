@@ -4,7 +4,7 @@
     android:gravity="center_vertical"
     android:layout_height="40dp">
     <RelativeLayout
-        android:background="#00C19A"
+        android:background="#14baca"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"

@@ -72,9 +72,6 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/Theme_NoTitle" />
-        <activity android:name="com.baidu.idl.face.example.login.activity.Images" />
-        <activity android:name="com.baidu.idl.face.example.login.activity.account" />
-        <activity android:name="com.baidu.idl.face.example.login.activity.image_path" />
     </application>
 
 </manifest>

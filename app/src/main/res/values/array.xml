@@ -7,15 +7,16 @@
         <item>拉伸恢复</item>
         <item>对比度增强</item>
         <item>无损放大</item>
+        <item>清晰度增强</item>
     </string-array>
-    <string-array name="bottom">
-        <item>大学习截图</item>
-        <item>截图查询</item>
-        <item>课表查询</item>
-        <item>图像处理</item>
-        <item>微哨查询</item>
-        <item>个人中心</item>
-    </string-array>
+<!--    <string-array name="bottom">-->
+<!--        <item>大学习截图</item>-->
+<!--        <item>截图查询</item>-->
+<!--        <item>课表查询</item>-->
+<!--        <item>图像处理</item>-->
+<!--        <item>微哨查询</item>-->
+<!--        <item>个人中心</item>-->
+<!--    </string-array>-->
     <string-array name="id">
         <item>1649</item>
         <item>1650</item>

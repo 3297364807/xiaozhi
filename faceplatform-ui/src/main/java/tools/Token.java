@@ -31,9 +31,9 @@ public class Token {
     }
     public  String getAuth2() {//动漫
         // 官网获取的 API Key 更新为你注册的
-        String clientId = "yxhHiWPohFNqrBWGViSHbVnF";
+        String clientId = "6soPm9cckH0qaQiHVvMzt5ht";
         // 官网获取的 Secret Key 更新为你注册的
-        String clientSecret = "AGGBuglMh3azkEvfDOmcuKxRPvvj1wLV";
+        String clientSecret = "pzP9nYdO3OnM6xDThRFgfFRsCm7BPj2D";
         return getAuth(clientId, clientSecret);
     }
     /**

@@ -1,5 +1,4 @@
 package com.baidu.idl.face.example.login.Fragement;
-
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -20,7 +19,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
-
+import com.baidu.idl.face.example.login.tools.Http_tools;
 import com.example.rnsb_start.R;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
@@ -124,17 +123,21 @@ public class VariableFragment extends Fragment{
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(intent, 1);
     }
-
     //点击监听类 继承 OnClickListener
     class MyClick_Events implements View.OnClickListener {
         @Override
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.Select_pictures://选择图片
+                    Check=true;
                     openAlbum();
                     break;
                 case R.id.UploadImage://上传
-                    UploadImage_Method();
+                    if(TCP_images!=null){
+                        UploadImage_Method();
+                    }else {
+                        Toast.makeText(context, "请选择上传图片", Toast.LENGTH_SHORT).show();
+                    }
                     break;
             }
         }
@@ -149,7 +152,8 @@ public class VariableFragment extends Fragment{
                     progressDialog.setMessage("上传中");
                     progressDialog.show();
                 });
-                TCP_socket2();
+                get();//修改积分
+                TCP_socket2();//
                 Check = false;
                 TCP_socket(Bitmap2InputStream(TCP_images));// 将Bitmap转换成InputStream   and  连接服务器
             }).start();
@@ -159,16 +163,38 @@ public class VariableFragment extends Fragment{
             Toast.makeText(context, "❤未选择图片❤", Toast.LENGTH_SHORT).show();
         }
     }
+    private void get() {
+        try {
+            Http_tools tools=new Http_tools();
+            String[] data=tools.initSectet(id).split(",");
+            if(data[2].equals("未完成")){
+                TCP_socket3(String.valueOf(Integer.valueOf(data[4])+1));
+            }else {
+
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     private void TCP_socket2() {
         Socket client = null;//发送连接
         try {
             client = new Socket("39.106.133.87", 5288);
             DataOutputStream dos = new DataOutputStream(client.getOutputStream());//发送数据
             dos.writeUTF(id);
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+    private void TCP_socket3(String s) {
+        Socket client = null;//发送连接
+        try {
+            client = new Socket("39.106.133.87", 5289);
+            DataOutputStream dos = new DataOutputStream(client.getOutputStream());//发送数据
+            dos.writeUTF(id+","+s);
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     // 将Bitmap转换成InputStream

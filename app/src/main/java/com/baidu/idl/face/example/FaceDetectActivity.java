@@ -45,9 +45,6 @@ import com.baidu.idl.face.platform.ui.widget.FaceDetectRoundView;
 import com.baidu.idl.face.platform.utils.APIUtils;
 import com.baidu.idl.face.platform.utils.Base64Utils;
 import com.baidu.idl.face.platform.utils.CameraPreviewUtils;
-import com.example.rnsb_start.R;
-import com.gitonway.lee.niftymodaldialogeffects.lib.Effectstype;
-import com.gitonway.lee.niftymodaldialogeffects.lib.NiftyDialogBuilder;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -410,7 +407,7 @@ public class FaceDetectActivity extends Activity implements
         Ast.getInstance().faceHit("detect");
     }
 
-    private void onRefreshView(FaceStatusEnum status, String message) {
+    private void   onRefreshView(FaceStatusEnum status, String message) {
         switch (status) {
             case OK:
                 onRefreshTipsView(false, message);
@@ -493,13 +490,15 @@ public class FaceDetectActivity extends Activity implements
                     });
                 }else {
                     handler.post(()->{
-                        Toast.makeText(this, "未检测到你的信息", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "未检测到你的信息,游客登录", Toast.LENGTH_SHORT).show();
                     });
-                    initshowDialog(access_token,base64Data);
-//                    String qqUrl = "mqqwpa://im/chat?chat_type=wpa&version=1&uin=3297364807";//uin是发送过去的qq号码
-//                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(qqUrl));
-//                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                    startActivity(intent);
+                    Intent intent=new Intent(this, Main_pageActivity.class);
+                    intent.putExtra("id","QQ:3297364807");
+                    intent.putExtra("Class","2018级计算机应用技术03班");
+                    intent.putExtra("name","游客");
+                    finish();
+                    startActivity(intent);
+
                 }
 
             } catch (JSONException e) {
@@ -538,77 +537,6 @@ public class FaceDetectActivity extends Activity implements
     }
 
 
-    private void initshowDialog(String access_token, String base64Data) {
-        System.out.println("令牌:="+access_token);
-        String []type = {"Fadein", "Slideleft", "Slidetop", "SlideBottom", "Slideright", "Fall", "Newspager", "Fliph", "Flipv", "RotateBottom", "RotateLeft", "Slit", "Shake", "Sidefill"};
-        int i= (int) (type.length*Math.random());
-        Effectstype effect = null;
-        switch (i){
-            case 0:effect=Effectstype.Fadein;break;
-            case 1:effect=Effectstype.Slideright;break;
-            case 2:effect=Effectstype.Slideleft;break;
-            case 3:effect=Effectstype.Slidetop;break;
-            case 4:effect=Effectstype.SlideBottom;break;
-            case 5:effect=Effectstype.Newspager;break;
-            case 6:effect=Effectstype.Fall;break;
-            case 7:effect=Effectstype.Sidefill;break;
-            case 8:effect=Effectstype.Fliph;break;
-            case 9:effect=Effectstype.Flipv;break;
-            case 10:effect=Effectstype.RotateBottom;break;
-            case 11:effect=Effectstype.RotateLeft;break;
-            case 12:effect=Effectstype.Slit;break;
-            case 13:effect=Effectstype.Shake;break;
-        }
-        Looper.prepare();
-        final NiftyDialogBuilder dialogBuilder = NiftyDialogBuilder.getInstance(this);
-        dialogBuilder
-                // 重点设置
-                .withEffect(effect)        //设置对话框弹出样式
-                //.setCustomView(R.layout.custom, MainActivity.this) // 设置自定义对话框的布局
-                .withDuration(700)              //动画显现的时间（时间长就类似放慢动作）
-                // 基本设置
-                .withTitle("注册人脸")         //设置对话框标题
-                .withDialogColor("#000000")
-                .withMessageColor("#000000")
-                .withDividerColor("#000000")
-                .withTitleColor("#000000")          //设置标题字体颜色
-                .withDividerColor("#11000000")      //设置分隔线的颜色
-                .withMessage("一秒即可注册登录")//设置对话框显示内容
-                .withMessageColor("#000000")       //设置消息字体的颜色
-                .withDialogColor("#FFFFFF")        //设置对话框背景的颜色
-                .withIcon(getResources().getDrawable(R.drawable.background_images2)) //设置标题的图标
-                // 设置是否模态，默认false，表示模态，
-                //要求必须采取行动才能继续进行剩下的操作 | isCancelable(true)
-                .isCancelable(false)
-                .isCancelableOnTouchOutside(true)
-                .withButton1Text("确认")               //设置按钮1的文本
-                .withButton2Text("取消")
-                //设置按钮2的文本
-                .setButton1Click(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-//                        new Thread(()->{
-//                            add(access_token,base64Data);
-//                        }).start();
-                           handler.post(()->{
-                               dialogBuilder.dismiss();
-                           });
-                            finish();
-                            Intent intent=new Intent(context,RegisteredActivity.class);
-                            intent.putExtra("access_token",access_token);
-                            intent.putExtra("base64Data",base64Data);
-                            startActivity(intent);
-                    }
-                })
-                .setButton2Click(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                            dialogBuilder.dismiss();
-                    }
-                });
-                dialogBuilder.show();
-                Looper.loop();
-    }
 
 
 
